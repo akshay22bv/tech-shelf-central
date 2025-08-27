@@ -1,4 +1,4 @@
-
+import { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +30,26 @@ const LaptopDetails = ({ laptop, onClose, onPrevious, onNext, hasPrevious, hasNe
     const whatsappUrl = `https://wa.me/919686721221?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
+
+  // Add keyboard event listener for arrow keys
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft' && hasPrevious && onPrevious) {
+        onPrevious();
+      } else if (event.key === 'ArrowRight' && hasNext && onNext) {
+        onNext();
+      } else if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    
+    // Cleanup event listener on component unmount
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [hasPrevious, hasNext, onPrevious, onNext, onClose]);
 
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
