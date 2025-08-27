@@ -17,14 +17,15 @@ interface LaptopCardProps {
     display: string;
     category: string;
   };
+  onViewDetails: () => void;
 }
 
-const LaptopCard = ({ laptop }: LaptopCardProps) => {
+const LaptopCard = ({ laptop, onViewDetails }: LaptopCardProps) => {
   return (
     <Card className="glass-card card-hover group cursor-pointer">
       <CardContent className="p-0">
         {/* Image */}
-        <div className="relative overflow-hidden rounded-t-lg">
+        <div className="relative overflow-hidden rounded-t-lg" onClick={onViewDetails}>
           <img 
             src={laptop.image} 
             alt={laptop.name}
@@ -70,19 +71,12 @@ const LaptopCard = ({ laptop }: LaptopCardProps) => {
           </div>
 
           {/* Actions */}
-          <div className="flex gap-2">
-            <Button 
-              className="flex-1 bg-brand-primary hover:bg-interactive-primary-hover text-background"
-            >
-              View Details
-            </Button>
-            <Button 
-              variant="outline" 
-              className="border-border-elevated hover:bg-surface-elevated"
-            >
-              Add to Cart
-            </Button>
-          </div>
+          <Button 
+            onClick={onViewDetails}
+            className="w-full bg-brand-primary hover:bg-interactive-primary-hover text-background"
+          >
+            View Details
+          </Button>
         </div>
       </CardContent>
     </Card>

@@ -1,7 +1,11 @@
 
+import { useState } from "react";
 import LaptopCard from "./LaptopCard";
+import LaptopDetails from "./LaptopDetails";
 
 const FeaturedLaptops = () => {
+  const [selectedLaptop, setSelectedLaptop] = useState<any>(null);
+
   // Mock data - in a real app, this would come from an API
   const featuredLaptops = [
     {
@@ -42,6 +46,14 @@ const FeaturedLaptops = () => {
     }
   ];
 
+  const handleViewDetails = (laptop: any) => {
+    setSelectedLaptop(laptop);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedLaptop(null);
+  };
+
   return (
     <section className="py-20 bg-surface">
       <div className="container mx-auto px-4">
@@ -57,7 +69,11 @@ const FeaturedLaptops = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredLaptops.map((laptop) => (
-            <LaptopCard key={laptop.id} laptop={laptop} />
+            <LaptopCard 
+              key={laptop.id} 
+              laptop={laptop} 
+              onViewDetails={() => handleViewDetails(laptop)}
+            />
           ))}
         </div>
 
@@ -67,6 +83,14 @@ const FeaturedLaptops = () => {
           </button>
         </div>
       </div>
+
+      {/* Laptop Details Modal */}
+      {selectedLaptop && (
+        <LaptopDetails 
+          laptop={selectedLaptop} 
+          onClose={handleCloseDetails}
+        />
+      )}
     </section>
   );
 };

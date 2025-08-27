@@ -1,5 +1,5 @@
 
-import { ShoppingCart, User, Laptop } from "lucide-react";
+import { User, Laptop } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
@@ -28,9 +28,6 @@ const Navbar = () => {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="text-foreground-muted hover:text-brand-primary">
-              <ShoppingCart className="w-5 h-5" />
-            </Button>
             <Button variant="ghost" size="icon" className="text-foreground-muted hover:text-brand-primary">
               <User className="w-5 h-5" />
             </Button>
