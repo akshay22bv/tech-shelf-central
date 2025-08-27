@@ -4,7 +4,7 @@ import LaptopCard from "./LaptopCard";
 import LaptopDetails from "./LaptopDetails";
 
 const FeaturedLaptops = () => {
-  const [selectedLaptop, setSelectedLaptop] = useState<any>(null);
+  const [selectedLaptopIndex, setSelectedLaptopIndex] = useState<number | null>(null);
 
   // Mock data - in a real app, this would come from an API
   const featuredLaptops = [
@@ -46,13 +46,29 @@ const FeaturedLaptops = () => {
     }
   ];
 
-  const handleViewDetails = (laptop: any) => {
-    setSelectedLaptop(laptop);
+  const handleViewDetails = (laptopIndex: number) => {
+    setSelectedLaptopIndex(laptopIndex);
   };
 
   const handleCloseDetails = () => {
-    setSelectedLaptop(null);
+    setSelectedLaptopIndex(null);
   };
+
+  const handlePrevious = () => {
+    if (selectedLaptopIndex !== null && selectedLaptopIndex > 0) {
+      setSelectedLaptopIndex(selectedLaptopIndex - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (selectedLaptopIndex !== null && selectedLaptopIndex < featuredLaptops.length - 1) {
+      setSelectedLaptopIndex(selectedLaptopIndex + 1);
+    }
+  };
+
+  const selectedLaptop = selectedLaptopIndex !== null ? featuredLaptops[selectedLaptopIndex] : null;
+  const hasPrevious = selectedLaptopIndex !== null && selectedLaptopIndex > 0;
+  const hasNext = selectedLaptopIndex !== null && selectedLaptopIndex < featuredLaptops.length - 1;
 
   return (
     <section className="py-20 bg-surface">
@@ -68,11 +84,11 @@ const FeaturedLaptops = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredLaptops.map((laptop) => (
+          {featuredLaptops.map((laptop, index) => (
             <LaptopCard 
               key={laptop.id} 
               laptop={laptop} 
-              onViewDetails={() => handleViewDetails(laptop)}
+              onViewDetails={() => handleViewDetails(index)}
             />
           ))}
         </div>
@@ -89,6 +105,10 @@ const FeaturedLaptops = () => {
         <LaptopDetails 
           laptop={selectedLaptop} 
           onClose={handleCloseDetails}
+          onPrevious={handlePrevious}
+          onNext={handleNext}
+          hasPrevious={hasPrevious}
+          hasNext={hasNext}
         />
       )}
     </section>

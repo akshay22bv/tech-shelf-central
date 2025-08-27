@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Cpu, HardDrive, Monitor, Zap, MessageCircle, X } from "lucide-react";
+import { Cpu, HardDrive, Monitor, Zap, MessageCircle, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface LaptopDetailsProps {
   laptop: {
@@ -18,9 +18,13 @@ interface LaptopDetailsProps {
     category: string;
   };
   onClose: () => void;
+  onPrevious?: () => void;
+  onNext?: () => void;
+  hasPrevious?: boolean;
+  hasNext?: boolean;
 }
 
-const LaptopDetails = ({ laptop, onClose }: LaptopDetailsProps) => {
+const LaptopDetails = ({ laptop, onClose, onPrevious, onNext, hasPrevious, hasNext }: LaptopDetailsProps) => {
   const handleWhatsAppChat = () => {
     const message = `Hi! I'm interested in the ${laptop.name} by ${laptop.brand} priced at $${laptop.price}. Can you provide more details?`;
     const whatsappUrl = `https://wa.me/919686721221?text=${encodeURIComponent(message)}`;
@@ -29,17 +33,41 @@ const LaptopDetails = ({ laptop, onClose }: LaptopDetailsProps) => {
 
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <Card className="glass-card w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+      <Card className="glass-card w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
         <CardHeader className="relative">
           <Button
             variant="ghost"
             size="icon"
             onClick={onClose}
-            className="absolute right-4 top-4 text-foreground-muted hover:text-brand-primary"
+            className="absolute right-4 top-4 text-foreground-muted hover:text-brand-primary z-10"
           >
             <X className="w-5 h-5" />
           </Button>
-          <CardTitle className="text-2xl gradient-text pr-12">{laptop.name}</CardTitle>
+          
+          {/* Navigation buttons */}
+          {hasPrevious && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onPrevious}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground-muted hover:text-brand-primary z-10 bg-background/50 backdrop-blur-sm"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </Button>
+          )}
+          
+          {hasNext && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onNext}
+              className="absolute right-16 top-1/2 -translate-y-1/2 text-foreground-muted hover:text-brand-primary z-10 bg-background/50 backdrop-blur-sm"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </Button>
+          )}
+          
+          <CardTitle className="text-2xl gradient-text pr-20">{laptop.name}</CardTitle>
           <p className="text-foreground-muted text-lg">{laptop.brand}</p>
         </CardHeader>
 
